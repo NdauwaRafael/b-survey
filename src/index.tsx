@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import './assets/sass/main.scss';
 import { Provider } from 'react-redux';
 import store from './redux';
+require('dotenv').config();
 
 ReactDOM.render(
   <React.StrictMode>

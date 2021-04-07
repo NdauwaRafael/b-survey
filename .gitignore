@@ -24,4 +24,6 @@ yarn-error.log*
 
 .env
 
-/.envx
+/.env
+public
+/public
