@@ -14,7 +14,7 @@ const TextInput = ({name, value, label, error, onChange, type}: InputParams) => 
     let validatorClass: string = "";
 
     if (error.length > 0) {
-        validatorClass = "focus:ring-red-500 focus:border-red-500 border-red-400";
+        validatorClass = "focus:ring-red-500 focus:border-red-500 border-red-400 border-2";
     } else {
         validatorClass = "focus:ring-indigo-500 focus:border-indigo-500 border-gray-300";
     }
@@ -32,6 +32,12 @@ const TextInput = ({name, value, label, error, onChange, type}: InputParams) => 
                 autoComplete={name}
                 className={validatorClass + " mt-1  block w-full shadow-sm sm:text-sm rounded-md px-3 py-2"}
             />
+            { error.length > 0 ?
+                    <p className="mt-2 text-sm text-red-500">
+                        {error}
+                    </p>
+            :null}
+
         </div>
     )
 
