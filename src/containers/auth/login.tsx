@@ -14,6 +14,7 @@ class Login extends Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.onSave = this.onSave.bind(this);
     }
 
     handleChange(event: { target: { name: any; value: any; }; }) {
@@ -25,7 +26,33 @@ class Login extends Component {
         });
     }
 
+    formIsValid(){
+        let isValid = false;
+        const {username, password, errors}: any = this.state;
+
+        if (!username || username.length === 0){
+            isValid = false;
+            errors.username = "Username is required";
+        }
+
+        if (!password || password.length === 0) {
+            isValid = false;
+            errors.password = "Password is required";
+        }
+
+        this.setState({errors});
+        return isValid;
+    }
+
+    onSave(e: any) {
+        e.preventDefault();
+        if (!this.formIsValid()) {
+            return;
+        }
+    }
+
     render() {
+        const {username, password}: any = this.state;
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
@@ -35,16 +62,16 @@ class Login extends Component {
                         </h2>
                     </div>
 
-                    <form action="#" method="POST" className="mt-8 space-y-6" >
+                    <form method="POST" className="mt-8 space-y-6" onSubmit={this.onSave} >
                         <div className="px-3 bg-gray-200 shadow overflow-hidden sm:rounded-lg py-12">
 
                             <div className="mt-3 mb-3" >
-                                <TextInput label="Username" onChange={this.handleChange} name="username"
+                                <TextInput label="Username" onChange={this.handleChange} name="username" value={username}
                                            type="text"/>
                             </div>
 
                             <div className="mt-3 mb-3">
-                                <TextInput label="Password" onChange={this.handleChange} name="password"
+                                <TextInput label="Password" onChange={this.handleChange} value={password} name="password"
                                            type="password"/>
                             </div>
 
