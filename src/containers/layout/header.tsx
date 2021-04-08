@@ -1,8 +1,9 @@
 import React from "react";
 import survey from "../../assets/img/survey.png";
 import {Link} from 'react-router-dom';
+import {connect} from "react-redux";
 
-const Header = () => (
+const Header = ({isAuthenticated}: any) => (
     <div className="relative bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div
@@ -27,24 +28,43 @@ const Header = () => (
                     </button>
                 </div>
 
-                <nav className="hidden md:flex space-x-10">
-                    {/*<a href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">*/}
-                    {/*    Pricing*/}
-                    {/*</a>*/}
-                    {/*<a href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">*/}
-                    {/*    Docs*/}
-                    {/*</a>*/}
-                </nav>
 
-                <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                    <Link to="/login" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
-                        Sign in
-                    </Link>
-                </div>
+                {
+                    isAuthenticated ?
+                         <nav className="hidden md:flex space-x-10">
+                            <Link to="/" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                                Dashboard
+                            </Link>
+                            <Link to="/surveys" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                                Surveys
+                            </Link>
+                            <Link to="/profile" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                                Profile
+                            </Link>
+                            <Link to="/logout" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                                Logout
+                            </Link>
+                        </nav>
+                        :
+                        <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+                            <Link to="/login" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
+                                Sign in
+                            </Link>
+                        </div>
+                }
+
+
 
             </div>
         </div>
     </div>
 );
 
-export default Header;
+const mapStateToProps = ({auth: {isAuthenticated}, auth}: any) => {
+    return {
+        auth,
+        isAuthenticated
+    }
+};
+
+export default connect(mapStateToProps)(Header)
