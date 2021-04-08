@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 import {loadUserAction} from "../../redux/actions/profile";
-import { useDispatch, useSelector } from 'react-redux';
+import {RootStateOrAny, useDispatch, useSelector} from 'react-redux';
 
 const Profile = () => {
+    const profile: any = useSelector((state: RootStateOrAny) => state.profile);
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(loadUserAction());
     }, []);
+
+    const {user} = profile;
 
     return (
         <div className="px-8 py-6">
@@ -26,15 +30,15 @@ const Profile = () => {
                                 Full name
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                Margot Foster
+                                {user.first_name} {user.last_name}
                             </dd>
                         </div>
                         <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">
-                                Application for
+                                Universal Name
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                Backend Developer
+                                {user.universe_name}
                             </dd>
                         </div>
                         <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -42,26 +46,23 @@ const Profile = () => {
                                 Email address
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                margotfoster@example.com
+                                {user.email}
                             </dd>
                         </div>
                         <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">
-                                Salary expectation
+                                Phone Number
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                $120,000
+                                {user.phone_number}
                             </dd>
                         </div>
-                        <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">
-                                About
+                                Language
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa
-                                consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in
-                                ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui
-                                eu.
+                                {user.language}
                             </dd>
                         </div>
                     </dl>

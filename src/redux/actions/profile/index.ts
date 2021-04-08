@@ -7,7 +7,7 @@ import * as profileApi from "../../constants/api/profile";
 const userLoaded = (resp: any) => {
     return {
         type: LOAD_USER_SUCCESS,
-        payload: resp
+        user: resp
     }
 };
 
