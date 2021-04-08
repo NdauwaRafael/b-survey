@@ -4,11 +4,13 @@ import {
 } from "../../constants/actionTypes";
 import * as authApi from "../../constants/api/auth";
 require('dotenv').config();
+interface LoginUserInterface {
+    username: string,
+    password: string
+};
 
 //LOGIN
 export const loginSuccess = (resp: any) => {
-    console.log(resp, "Yaaay");
-
     return {
         type: LOGIN_SUCCESS,
         payload: resp
@@ -16,43 +18,38 @@ export const loginSuccess = (resp: any) => {
 };
 
 export const loginFailed = (resp: any) => {
-    console.log(resp, "Neey");
-
     return {
         type: LOGIN_FAILED,
         error: resp
     }
 };
 
-export const loginUser = (username: string, password: string) => (dispatch: (arg0: { type: string; payload?: any; error?: any; }) => void) => {
+export const loginUser = ({username, password}: LoginUserInterface) => async (dispatch: any) => {
+    let body = `grant_type=password&username=${username}&password=${password}&client_id=${process.env.REACT_APP_CLIENT_ID}`;
+    const encodedSecret = Buffer.from(`${process.env.REACT_APP_CLIENT_ID}:${process.env.REACT_APP_CLIENT_SECRET}`).toString('base64')
+
     const config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${encodedSecret}`,
         },
-        auth: {
-            username: process.env.REACT_APP_CLIENT_ID,
-            password: process.env.REACT_APP_CLIENT_SECRET
-        }
+        mode: 'cors',
     };
 
+    try {
+        let response = await authApi.loginUserApi(body, config);
+        let responseData: any = await response.json();
 
-    // let body = `grant_type=password&username=${username}&password=${password}>`;
-    const params = new URLSearchParams();
-    params.append('grant_type',  'password');
-    params.append('username',  username);
-    params.append('password',  password);
+        if (response.status === 200){
+            dispatch(loginSuccess(responseData))
+        }
+        else {
+            return dispatch(loginFailed('Login Failed'))
+        }
 
-    console.log("Called");
+    }
+    catch (e) {
+        return dispatch(loginFailed('Login Failed'))
+    }
 
-    authApi.loginUserApi(params, config)
-        .then((resp: { data: any; }) => {
-            dispatch(loginSuccess(resp.data))
-        })
-        .catch((error: { response: { data: any; }; }) => {
-            if (error.response) {
-                return dispatch(loginFailed(error.response.data))
-            } else {
-                return dispatch(loginFailed('Login Failed'))
-            }
-        })
 };
