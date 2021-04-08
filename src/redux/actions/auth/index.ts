@@ -4,6 +4,7 @@ import {
 } from "../../constants/actionTypes";
 import * as authApi from "../../constants/api/auth";
 require('dotenv').config();
+
 interface LoginUserInterface {
     username: string,
     password: string
