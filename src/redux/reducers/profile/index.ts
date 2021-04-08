@@ -2,6 +2,7 @@ import {LOAD_USER_SUCCESS, LOAD_USER_FAILED} from "../../constants/actionTypes";
 
 
 const initialState = {
+    user: {}
 }
 
 export default (state = initialState, action: any) => {

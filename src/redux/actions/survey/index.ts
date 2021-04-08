@@ -6,11 +6,17 @@ import * as surveysApi from "../../constants/api/surveys";
 
 //forms
 const formsLoaded = (resp: any) =>{
-
-}
+    return {
+        type: LOAD_SURVEY_SUCCESS,
+        forms: resp.forms
+    }
+};
 
 const formsLoadFailed = (error: any) =>{
-
+    return {
+        type: LOAD_SURVEY_FAILED,
+        error
+    }
 };
 
 export const loadSurveyForms = () => async (dispatch: any) => {
