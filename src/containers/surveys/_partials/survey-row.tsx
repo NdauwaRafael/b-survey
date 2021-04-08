@@ -25,7 +25,7 @@ const SurveyRow = ({form} : any) => {
                 {formatDate(form.created)}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <Link to={'survey/'+form.id} className="text-indigo-600 hover:text-indigo-900">View</Link>
+                <Link to={'surveys/'+form.id} className="text-indigo-600 hover:text-indigo-900">View</Link>
             </td>
         </tr>
     )
