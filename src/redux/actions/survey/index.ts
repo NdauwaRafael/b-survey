@@ -24,8 +24,6 @@ export const loadSurveyForms = () => async (dispatch: any) => {
         let response = await surveysApi.loadSurveyFormsApi();
         let responseData = await response.json();
 
-        console.log(responseData);
-
         if (response.status === 200) {
             dispatch(formsLoaded(responseData))
         }
@@ -36,4 +34,4 @@ export const loadSurveyForms = () => async (dispatch: any) => {
     catch (e) {
         dispatch(formsLoadFailed("Could not load survey forms, an error occurred " + e.toString()))
     }
-}
+};

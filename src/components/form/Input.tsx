@@ -12,13 +12,11 @@ interface InputParams {
 
 const TextInput = ({name, value, label, error, onChange, type}: InputParams) => {
     let validatorClass: string = "";
-
     if (error.length > 0) {
         validatorClass = "focus:ring-red-500 focus:border-red-500 border-red-400 border-2";
     } else {
         validatorClass = "focus:ring-indigo-500 focus:border-indigo-500 border-gray-300";
     }
-
     return (
         <div>
             <label htmlFor={name} className="block text-sm font-medium text-gray-700">{label}</label>
@@ -40,7 +38,6 @@ const TextInput = ({name, value, label, error, onChange, type}: InputParams) => 
 
         </div>
     )
-
 };
 
 TextInput.propTypes = {

@@ -5,12 +5,11 @@ import {RootStateOrAny, useDispatch, useSelector} from 'react-redux';
 const Profile = () => {
     const profile: any = useSelector((state: RootStateOrAny) => state.profile);
     const dispatch = useDispatch();
+    const {user} = profile;
 
     useEffect(() => {
         dispatch(loadUserAction());
-    }, []);
-
-    const {user} = profile;
+    }, [dispatch]);
 
     return (
         <div className="px-8 py-6">

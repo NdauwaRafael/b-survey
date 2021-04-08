@@ -3,7 +3,7 @@ import TextInput from "../../components/form/Input";
 import {AnyAction, bindActionCreators, Dispatch} from "redux";
 import {loginUser} from "../../redux/actions/auth";
 import {connect} from "react-redux";
-import { Redirect } from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 interface LoginProps {
     auth?: any;
@@ -15,7 +15,6 @@ interface LoginState {
     user: any
     errors: any
 }
-
 
 class Login extends Component<LoginProps, LoginState> {
     constructor(props: any) {
@@ -30,7 +29,6 @@ class Login extends Component<LoginProps, LoginState> {
                 password: ""
             }
         };
-
         this.handleChange = this.handleChange.bind(this);
         this.onSave = this.onSave.bind(this);
     }
@@ -46,23 +44,19 @@ class Login extends Component<LoginProps, LoginState> {
     formIsValid() {
         let isValid = true;
         const {user: {username, password}, errors}: any = this.state;
-
         if (!username || username.length === 0) {
             isValid = false;
             errors.username = "Username is required";
         } else {
             errors.username = ""
         }
-
         if (!password || password.length === 0) {
             isValid = false;
             errors.password = "Password is required";
         } else {
             errors.password = ""
         }
-
         this.setState({errors});
-
         return isValid;
     }
 
@@ -71,7 +65,6 @@ class Login extends Component<LoginProps, LoginState> {
         if (!this.formIsValid()) {
             return;
         }
-
         this.props.loginUser(this.state.user)
     }
 
@@ -79,7 +72,6 @@ class Login extends Component<LoginProps, LoginState> {
         if (this.props.auth.isAuthenticated) {
             return <Redirect to="/"/>
         }
-
         const {user: {username, password}, errors}: any = this.state;
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

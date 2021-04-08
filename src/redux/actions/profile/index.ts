@@ -18,19 +18,15 @@ const loadUserFailed = (error: any) => ({
 
 export const loadUserAction = () => async (dispatch: any) => {
     try {
-        let response = await profileApi.loadUserApi()
+        let response = await profileApi.loadUserApi();
         let responseData = await response.json();
 
-        console.log(responseData, "responseData");
-
-        if (response.status == 200) {
+        if (response.status === 200) {
             return dispatch(userLoaded(responseData));
         } else {
             return dispatch(loadUserFailed("failed to load user"));
         }
     } catch (e) {
-        console.log(e, "e");
-
         return dispatch(loadUserFailed("failed to load user"));
     }
 };

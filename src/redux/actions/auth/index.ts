@@ -8,7 +8,7 @@ require('dotenv').config();
 interface LoginUserInterface {
     username: string,
     password: string
-};
+}
 
 //LOGIN
 export const loginSuccess = (resp: any) => {
@@ -28,20 +28,18 @@ export const loginFailed = (resp: any) => {
 export const loginUser = ({username, password}: LoginUserInterface) => async (dispatch: any) => {
     let body = `grant_type=password&username=${username}&password=${password}&client_id=${process.env.REACT_APP_CLIENT_ID}`;
 
-
     try {
         let response = await authApi.loginUserApi(body);
         let responseData: any = await response.json();
 
         if (response.status === 200){
-            dispatch(loginSuccess(responseData))
+            dispatch(loginSuccess(responseData));
         }
         else {
-            return dispatch(loginFailed('Login Failed'))
+            return dispatch(loginFailed('Login Failed'));
         }
     }
     catch (e) {
-        return dispatch(loginFailed('Login Failed'))
+        return dispatch(loginFailed('Login Failed ' + e.toString()));
     }
-
 };

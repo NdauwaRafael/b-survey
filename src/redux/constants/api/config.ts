@@ -6,11 +6,9 @@ export const headersConfig = () => {
     let token = localStorage.getItem('access_token');
 
     if (token) {
-
         return {
             Authorization: `Bearer ${token}`,
         };
-
     } else {
         return {
             'Content-Type': 'application/x-www-form-urlencoded',

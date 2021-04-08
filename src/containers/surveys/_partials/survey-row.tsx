@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 const SurveyRow = ({form} : any) => {
         const formatDate = (date: string) => {
@@ -24,11 +25,10 @@ const SurveyRow = ({form} : any) => {
                 {formatDate(form.created)}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a href="#" className="text-indigo-600 hover:text-indigo-900">View</a>
+                <Link to={'survey/'+form.id} className="text-indigo-600 hover:text-indigo-900">View</Link>
             </td>
         </tr>
     )
 };
-
 
 export default SurveyRow;

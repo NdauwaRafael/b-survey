@@ -7,7 +7,7 @@ let initialState = {
     forms: []
 };
 
-export default (state = initialState, action: any) => {
+export const surveys = (state = initialState, action: any) => {
     switch (action.type) {
         case LOAD_SURVEY_SUCCESS:
             return {
@@ -22,4 +22,4 @@ export default (state = initialState, action: any) => {
         default:
             return state;
     }
-}
+};

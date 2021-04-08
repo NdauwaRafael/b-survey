@@ -27,8 +27,6 @@ const Header = ({isAuthenticated}: any) => (
                         </svg>
                     </button>
                 </div>
-
-
                 {
                     isAuthenticated ?
                          <nav className="hidden md:flex space-x-10">
@@ -52,9 +50,6 @@ const Header = ({isAuthenticated}: any) => (
                             </Link>
                         </div>
                 }
-
-
-
             </div>
         </div>
     </div>

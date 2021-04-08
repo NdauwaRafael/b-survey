@@ -6,4 +6,4 @@ const Survey = () =>{
             <h2>Survey Details</h2>
         </div>
     )
-}
+};

@@ -10,7 +10,7 @@ const Surveys = () => {
 
     useEffect(() => {
         dispatch(loadSurveyForms());
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="px-8 py-6">
@@ -43,6 +43,5 @@ const Surveys = () => {
         </div>
     )
 };
-
 
 export {Surveys};

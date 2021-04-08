@@ -16,7 +16,7 @@ const initialState = {
     registrationErrors: {}
 };
 
-export default (state = initialState, action: any) => {
+export const auth = (state = initialState, action: any) => {
     switch (action.type) {
         case LOGIN_FAILED:
             localStorage.removeItem('access_token');
@@ -45,4 +45,4 @@ export default (state = initialState, action: any) => {
         default:
             return state;
     }
-}
+};

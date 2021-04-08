@@ -1,11 +1,10 @@
 import {LOAD_USER_SUCCESS, LOAD_USER_FAILED} from "../../constants/actionTypes";
 
-
 const initialState = {
     user: {}
-}
+};
 
-export default (state = initialState, action: any) => {
+export const profile = (state = initialState, action: any) => {
     switch (action.type) {
         case LOAD_USER_SUCCESS:
             return {
@@ -22,4 +21,4 @@ export default (state = initialState, action: any) => {
         default:
             return state;
     }
-}
+};
