@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import {loadUserAction} from "../../redux/actions/profile";
+import { useDispatch, useSelector } from 'react-redux';
 
 const Profile = () => {
-    
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(loadUserAction());
+    }, []);
+
     return (
         <div className="px-8 py-6">
             <div className="bg-white shadow overflow-hidden sm:rounded-lg">
