@@ -3,6 +3,7 @@ import TextInput from "../../components/form/Input";
 import {AnyAction, bindActionCreators, Dispatch} from "redux";
 import {loginUser} from "../../redux/actions/auth";
 import {connect} from "react-redux";
+import { Redirect } from "react-router-dom";
 
 interface LoginProps {
     auth?: any;
@@ -75,6 +76,10 @@ class Login extends Component<LoginProps, LoginState> {
     }
 
     render() {
+        if (this.props.auth.isAuthenticated) {
+            return <Redirect to="/"/>
+        }
+
         const {user: {username, password}, errors}: any = this.state;
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

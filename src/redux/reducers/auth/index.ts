@@ -5,8 +5,11 @@ import {
 } from '../../constants/actionTypes';
 
 const initialState = {
-    token: localStorage.getItem('token'),
-    isAuthenticated: null,
+    access_token: localStorage.getItem('access_token'),
+    token_expiry: 0,
+    permissions: [],
+    refresh_token: localStorage.getItem('refresh_token'),
+    isAuthenticated: !!localStorage.getItem('access_token'),
     isLoading: false,
     user: null,
     authError: {},
@@ -16,7 +19,8 @@ const initialState = {
 export default (state = initialState, action: any) => {
     switch (action.type) {
         case LOGIN_FAILED:
-            localStorage.removeItem('token');
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
             return {
                 ...state,
                 isLoading: false,
@@ -26,7 +30,8 @@ export default (state = initialState, action: any) => {
                 authError: action.error
             };
         case LOGIN_SUCCESS:
-            localStorage.setItem('token', action.payload.token);
+            localStorage.setItem('access_token', action.payload.access_token);
+            localStorage.setItem('refresh_token', action.payload.refresh_token);
             return {
                 ...state,
                 isLoading: false,
