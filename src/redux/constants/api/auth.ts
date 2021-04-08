@@ -1,11 +1,12 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import {url} from "./config";
+import {headersConfig, url} from "./config";
 
-export const loginUserApi = (user: string, config: AxiosRequestConfig | any) => {
+export const loginUserApi = (user: string) => {
     return fetch(url +'/api/v1/oauth/token/', {
         method: 'POST',
         body: user,
-        ...config
+        ...headersConfig,
+        mode: 'cors'
     });
 };
 

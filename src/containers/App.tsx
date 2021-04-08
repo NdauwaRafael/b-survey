@@ -5,10 +5,17 @@ import AppRoutes from "../routes";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App min-h-screen">
         <Router>
             <Header/>
-            {AppRoutes}
+            <main className="min-h-full">
+                <div className="max-w-7xl mx-auto sm:px-6 min-h-full">
+                    <div className="px-4 py-6 sm:px-0 bg-gray-100 min-h-full">
+                        {AppRoutes}
+                    </div>
+                </div>
+            </main>
+
         </Router>
     </div>
   );

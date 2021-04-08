@@ -27,17 +27,10 @@ export const loginFailed = (resp: any) => {
 
 export const loginUser = ({username, password}: LoginUserInterface) => async (dispatch: any) => {
     let body = `grant_type=password&username=${username}&password=${password}&client_id=${process.env.REACT_APP_CLIENT_ID}`;
-    const encodedSecret = Buffer.from(`${process.env.REACT_APP_CLIENT_ID}:${process.env.REACT_APP_CLIENT_SECRET}`).toString('base64');
-    const config = {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: `Basic ${encodedSecret}`,
-        },
-        mode: 'cors',
-    };
+
 
     try {
-        let response = await authApi.loginUserApi(body, config);
+        let response = await authApi.loginUserApi(body);
         let responseData: any = await response.json();
 
         if (response.status === 200){
