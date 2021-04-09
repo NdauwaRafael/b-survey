@@ -5,8 +5,7 @@ import {
     SURVEY_STARTED,
     SURVEY_STOPPED,
 
-    SURVEY_SUBMIT_SUCCESS,
-    SURVEY_SUBMIT_FAILED
+    SURVEY_SUBMIT_SUCCESS
 } from "../../constants/actionTypes";
 
 let initialState = {
