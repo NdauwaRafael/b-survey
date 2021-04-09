@@ -48,6 +48,7 @@ export const auth = (state = initialState, action: any) => {
             };
         case LOGOUT_SUCCESS:
             localStorage.removeItem('access_token');
+            localStorage.removeItem('token_expiry');
             return {...state, isLoading: false, isAuthenticated: false, access_token: null};
 
         default:

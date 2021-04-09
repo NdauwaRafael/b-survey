@@ -1,6 +1,6 @@
 import {
     LOGIN_SUCCESS,
-    LOGIN_FAILED,
+    LOGIN_FAILED, LOGOUT_SUCCESS,
 } from "../../constants/actionTypes";
 import * as authApi from "../../constants/api/auth";
 require('dotenv').config();
@@ -42,4 +42,11 @@ export const loginUser = ({username, password}: LoginUserInterface) => async (di
     catch (e) {
         return dispatch(loginFailed('Login Failed ' + e.toString()));
     }
+};
+
+//Logout user
+export const logoutUserAction = () => (dispatch: any) => {
+    dispatch({
+        type: LOGOUT_SUCCESS
+    })
 };
