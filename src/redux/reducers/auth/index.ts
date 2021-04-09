@@ -22,8 +22,6 @@ const initialState = {
     registrationErrors: {}
 };
 
-
-
 export const auth = (state = initialState, action: any) => {
     switch (action.type) {
         case LOGIN_FAILED:
