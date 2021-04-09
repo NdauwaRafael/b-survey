@@ -76,7 +76,7 @@ export const submitSurveyAction = (survey: any, user_id: number, surveyId: numbe
         const response = await surveysApi.submitSurveyFormsApi(survey);
         const responseData = await response.json();
 
-        if (response.status === 200) {
+        if (response.status === 201) {
             dispatch(surveySubmitSuccess(responseData, user_id, surveyId))
         }
         else  {

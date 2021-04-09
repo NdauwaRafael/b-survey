@@ -6,12 +6,6 @@ import {loadSurveyForms, submitSurveyAction, surveyStarted} from "../../redux/ac
 import {SurveyPage} from "./_partials/survey-page";
 import {loadUserAction} from "../../redux/actions/profile";
 
-interface IStartData {
-    started: boolean;
-    startTime: any;
-    surveyId: number
-}
-
 const Survey = ({match}: Props) => {
     const dispatch = useDispatch();
     //get form data from redux store and filter opened form from route params
@@ -31,14 +25,15 @@ const Survey = ({match}: Props) => {
     //handle updating form responses
     const [formData, setFormData] = useState([] as any);
     const [formRawData, setFormRawData] = useState([] as any);
+
     //Handle whether survey have been filled and submitted
     const user = useSelector((state: RootStateOrAny) => state.profile.user);
     const submitted_surveys = useSelector((state: RootStateOrAny) => state.surveys.startedSurveys);
     const currentInSubmitted = submitted_surveys.filter((survey: any)=> survey.surveyId === match.params.id && survey.userId === user.id);
-    const surveyIsSubmited = currentInSubmitted.length > 0;
+    const surveyIsSubmitted = currentInSubmitted.length > 0;
 
     useEffect(() => {
-        if (!forms || forms.length === 0) {
+        if (!forms) {
             dispatch(loadSurveyForms());
         }
         if (!user || !user.id) {
@@ -61,7 +56,6 @@ const Survey = ({match}: Props) => {
     const handleFormUpdate = ({column_match, q_ans, q_id}: any) => {
         setFormData([...formData, {column_match, q_ans, q_id}]);
         let data: any = {...formRawData};
-
         data[column_match] = q_ans;
         setFormRawData(data);
     };
@@ -70,7 +64,7 @@ const Survey = ({match}: Props) => {
         let data = [
             {
                 ans: formData,
-                end_time: Date.now(),
+                end_time: new Date().toISOString(),
                 local_id: 0,
                 location: {
                     accuracy: 0,
@@ -100,7 +94,7 @@ const Survey = ({match}: Props) => {
 
                         <div className="">
                             {
-                                surveyIsSubmited ?
+                                surveyIsSubmitted ?
                                     <div className="bg-gray-50">
                                         <div
                                             className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
@@ -141,7 +135,6 @@ const Survey = ({match}: Props) => {
                                             </div>
                                         </div>
                                     </div>
-
                             }
                         </div>
                     </div>

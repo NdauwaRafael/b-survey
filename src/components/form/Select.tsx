@@ -1,10 +1,11 @@
 import React from "react";
 
-const Select = ( { name, value, label, error, onChange, options, defaultOption }: any)=>{
+const Select = ( { name, value, label, error, onChange, options, defaultOption, multiple }: any)=>{
     return (
         <div className="col-span-6 sm:col-span-3">
             <label htmlFor={name} className="block text-sm font-medium text-gray-700" dangerouslySetInnerHTML={{__html: label}} />
             <select
+                multiple={multiple}
                 id={name}
                 value={value || ''}
                 name={name}

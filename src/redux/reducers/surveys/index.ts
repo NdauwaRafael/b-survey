@@ -37,7 +37,7 @@ export const surveys = (state = initialState, action: any) => {
             let updatedSurvey = [...survey_data, {
                 surveyId: action.surveyId,
                 started: true,
-                startTime: Date.now()
+                startTime: new Date().toISOString()
             }];
 
             localStorage.removeItem('started_surveys');
@@ -74,7 +74,7 @@ export const surveys = (state = initialState, action: any) => {
 
             let submittedSurvey = [...submitted_data, {
                 surveyId: action.surveyId,
-                date: Date.now(),
+                date: new Date().toISOString(),
                 user_id: action.user_id
             }];
 
