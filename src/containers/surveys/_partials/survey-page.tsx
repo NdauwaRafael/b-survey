@@ -1,8 +1,9 @@
 import React from "react";
 import {SurveySection} from "./survey.section";
 
-const SurveyPage = ({page, pageCount, changePage, totalPages, submit}: any) => {
+const SurveyPage = ({page, pageCount, changePage, totalPages, submit, updateForm, formData}: any) => {
     const {sections} = page;
+
     return (
         <div className="px-4 py-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-4">
             <div className="px-4 sm:px-0 mb-5">
@@ -12,7 +13,7 @@ const SurveyPage = ({page, pageCount, changePage, totalPages, submit}: any) => {
             <div className="mb-3">
                 {
                     sections ?
-                        sections.map((section: any) => <SurveySection key={section.id} section={section} />)
+                        sections.map((section: any) => <SurveySection key={section.id} section={section} updateForm={updateForm} formData={formData} />)
                         :null
                 }
             </div>
@@ -39,11 +40,13 @@ const SurveyPage = ({page, pageCount, changePage, totalPages, submit}: any) => {
                                 Next
                             </button>
                             :
+                            pageCount === totalPages && totalPages !== 0 ?
                             <button type="button"
                                     onClick={()=>submit()}
                                     className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Submit
                             </button>
+                                :null
                     }
 
                 </div>

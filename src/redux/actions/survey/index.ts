@@ -2,7 +2,7 @@ import {
     LOAD_SURVEY_SUCCESS,
     LOAD_SURVEY_FAILED,
     SURVEY_STOPPED,
-    SURVEY_STARTED
+    SURVEY_STARTED, SURVEY_SUBMIT_SUCCESS, SURVEY_SUBMIT_FAILED
 } from "../../constants/actionTypes";
 import * as surveysApi from "../../constants/api/surveys";
 
@@ -38,6 +38,7 @@ export const loadSurveyForms = () => async (dispatch: any) => {
     }
 };
 
+//starting and stopping survey
 export const surveyStarted = (surveyId: number) => (dispatch: any) => {
     dispatch({
         type: SURVEY_STARTED,
@@ -47,7 +48,41 @@ export const surveyStarted = (surveyId: number) => (dispatch: any) => {
 
 export const surveyStopped = (surveyId: number) => (dispatch: any) => {
     dispatch({
-        type: SURVEY_STARTED,
+        type: SURVEY_STOPPED,
         surveyId
     })
+};
+
+//submitting survey
+
+const surveySubmitSuccess = (payload: any) =>{
+    return {
+        type: SURVEY_SUBMIT_SUCCESS,
+        payload
+    }
+};
+
+const surveySubmitFailed = (error: any) =>{
+    return {
+        type: SURVEY_SUBMIT_FAILED,
+        error
+    }
+};
+
+export const submitSurveyAction = (survey: any) => async (dispatch: any) => {
+    try {
+        const response = await surveysApi.submitSurveyFormsApi(survey);
+        const responseData = await response.json();
+
+        if (response.status === 200) {
+            dispatch(surveySubmitSuccess(responseData))
+        }
+        else  {
+            dispatch(surveySubmitFailed("Failed to submit data"))
+        }
+    }
+    catch (e) {
+        dispatch(surveySubmitFailed("An error occurred trying to submit data"))
+
+    }
 };

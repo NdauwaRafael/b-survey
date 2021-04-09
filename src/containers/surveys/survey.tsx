@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Props} from "../../_helpers/_route-props";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import {getFormFromId} from "./_helpers/survey.helpers";
-import {loadSurveyForms, surveyStarted} from "../../redux/actions/survey";
+import {loadSurveyForms, submitSurveyAction, surveyStarted} from "../../redux/actions/survey";
 import {SurveyPage} from "./_partials/survey-page";
 
 interface IStartData {
@@ -13,17 +13,24 @@ interface IStartData {
 
 const Survey = ({match}: Props) => {
     const dispatch = useDispatch();
+    //get form data from redux store and filter opened form from route params
     const forms = useSelector((state: RootStateOrAny) => state.surveys.forms);
     const form = getFormFromId(forms, match.params.id);
     const {pages} = form;
+    //Paginate the form pages
     const [pageCount, setPageCount] = useState(0);
-    const [startData, setStartData] = useState<IStartData>({surveyId: match.params.id, started: false, startTime: undefined});
     const currentPage = pages ? pages[pageCount] : {};
+    //handle opening and closing of surveys
     const started_surveys = useSelector((state: RootStateOrAny) => state.surveys.startedSurveys);
     const current_survey_data = started_surveys.filter((survey: any) => survey.surveyId === match.params.id);
+    let startedSurvey_raw = {surveyId: match.params.id, started: false, startTime: undefined};
     if (current_survey_data.length > 0){
-        setStartData(Object.assign({}, current_survey_data[0]))
+        startedSurvey_raw = current_survey_data[0]
     }
+    const [startData, setStartData] = useState<IStartData>(startedSurvey_raw);
+    //handle updating form responses
+    const [formData, setFormData] = useState([] as any);
+    const [formRawData, setFormRawData] = useState([] as any);
 
     useEffect(() => {
         if (!forms || forms.length === 0) {
@@ -40,11 +47,19 @@ const Survey = ({match}: Props) => {
     };
 
     const handleStartSurvey = ()=>{
-        dispatch(surveyStarted(match.params.id))
+        dispatch(surveyStarted(match.params.id));
+    };
+
+    const handleFormUpdate = ({column_match, q_ans, q_id}: any) => {
+        setFormData([...formData, {column_match, q_ans, q_id}]);
+        let data: any = {...formRawData};
+
+        data[column_match] = q_ans;
+        setFormRawData(data);
     };
 
     const handleSubmit = ()=>{
-
+        dispatch(submitSurveyAction(formData));
     };
 
     return (
@@ -69,7 +84,9 @@ const Survey = ({match}: Props) => {
                                             page={currentPage}
                                             totalPages={pages ? pages.length - 1 : 0}
                                             pageCount={pageCount}
+                                            formData={formRawData}
                                             submit={handleSubmit}
+                                            updateForm={handleFormUpdate}
                                             changePage={handleChangePage}/>
                                     </form>
                                     :
