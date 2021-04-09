@@ -1,6 +1,8 @@
 import {
     LOAD_SURVEY_SUCCESS,
-    LOAD_SURVEY_FAILED
+    LOAD_SURVEY_FAILED,
+    SURVEY_STOPPED,
+    SURVEY_STARTED
 } from "../../constants/actionTypes";
 import * as surveysApi from "../../constants/api/surveys";
 
@@ -34,4 +36,18 @@ export const loadSurveyForms = () => async (dispatch: any) => {
     catch (e) {
         dispatch(formsLoadFailed("Could not load survey forms, an error occurred " + e.toString()))
     }
+};
+
+export const surveyStarted = (surveyId: number) => (dispatch: any) => {
+    dispatch({
+        type: SURVEY_STARTED,
+        surveyId
+    })
+};
+
+export const surveyStopped = (surveyId: number) => (dispatch: any) => {
+    dispatch({
+        type: SURVEY_STARTED,
+        surveyId
+    })
 };

@@ -2,12 +2,13 @@ import React, {useEffect, useState} from "react";
 import {Props} from "../../_helpers/_route-props";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import {getFormFromId} from "./_helpers/survey.helpers";
-import {loadSurveyForms} from "../../redux/actions/survey";
+import {loadSurveyForms, surveyStarted} from "../../redux/actions/survey";
 import {SurveyPage} from "./_partials/survey-page";
 
 interface IStartData {
-    start: boolean;
+    started: boolean;
     startTime: any;
+    surveyId: number
 }
 
 const Survey = ({match}: Props) => {
@@ -16,9 +17,13 @@ const Survey = ({match}: Props) => {
     const form = getFormFromId(forms, match.params.id);
     const {pages} = form;
     const [pageCount, setPageCount] = useState(0);
-    const [startData, setStartData] = useState<IStartData>({start: false, startTime: undefined});
+    const [startData, setStartData] = useState<IStartData>({surveyId: match.params.id, started: false, startTime: undefined});
     const currentPage = pages ? pages[pageCount] : {};
-
+    const started_surveys = useSelector((state: RootStateOrAny) => state.surveys.startedSurveys);
+    const current_survey_data = started_surveys.filter((survey: any) => survey.surveyId === match.params.id);
+    if (current_survey_data.length > 0){
+        setStartData(Object.assign({}, current_survey_data[0]))
+    }
 
     useEffect(() => {
         if (!forms || forms.length === 0) {
@@ -35,10 +40,7 @@ const Survey = ({match}: Props) => {
     };
 
     const handleStartSurvey = ()=>{
-        setStartData({
-            start: true,
-            startTime: Date.now()
-        })
+        dispatch(surveyStarted(match.params.id))
     };
 
     const handleSubmit = ()=>{
@@ -60,7 +62,7 @@ const Survey = ({match}: Props) => {
 
                         <div className="">
                             {
-                                startData.start ?
+                                startData.started ?
                                     <form>
                                         <SurveyPage
                                             key={currentPage.id}
