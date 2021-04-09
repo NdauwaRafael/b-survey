@@ -3,12 +3,13 @@ import {Props} from "../../_helpers/_route-props";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import {getFormFromId} from "./_helpers/survey.helpers";
 import {loadSurveyForms} from "../../redux/actions/survey";
+import {SurveyPage} from "./_partials/survey-page";
 
 const Survey = ({match}: Props) => {
     const dispatch = useDispatch();
     const forms = useSelector((state: RootStateOrAny) => state.surveys.forms);
     const form = getFormFromId(forms, match.params.id);
-    console.log(form);
+    const {pages} = form;
 
     useEffect(() => {
         if (!forms || forms.length === 0) {
@@ -29,8 +30,13 @@ const Survey = ({match}: Props) => {
                             </p>
                         </div>
 
-                        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                            
+                        <div className="">
+                            <form>
+                                {pages ?
+                                    pages.map((page: any) => <SurveyPage key={page.id} page={page}/>)
+                                    : null
+                                }
+                            </form>
                         </div>
                     </div>
                 </div>

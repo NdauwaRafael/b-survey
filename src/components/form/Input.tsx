@@ -19,14 +19,13 @@ const TextInput = ({name, value, label, error, onChange, type}: InputParams) => 
     }
     return (
         <div>
-            <label htmlFor={name} className="block text-sm font-medium text-gray-700">{label}</label>
+            <label htmlFor={name} className="block text-sm font-medium text-gray-700" dangerouslySetInnerHTML={{__html: label}}/>
             <input
                 type={type ? type : "text"}
                 value={value || ""}
                 id={name}
                 name={name}
                 onChange={onChange}
-                placeholder={label}
                 autoComplete={name}
                 className={validatorClass + " mt-1  block w-full shadow-sm sm:text-sm rounded-md px-3 py-2"}
             />
