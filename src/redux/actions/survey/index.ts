@@ -55,10 +55,12 @@ export const surveyStopped = (surveyId: number) => (dispatch: any) => {
 
 //submitting survey
 
-const surveySubmitSuccess = (payload: any) =>{
+const surveySubmitSuccess = (payload: any, user_id: number, surveyId: number) =>{
     return {
         type: SURVEY_SUBMIT_SUCCESS,
-        payload
+        payload,
+        user_id,
+        surveyId
     }
 };
 
@@ -69,13 +71,13 @@ const surveySubmitFailed = (error: any) =>{
     }
 };
 
-export const submitSurveyAction = (survey: any) => async (dispatch: any) => {
+export const submitSurveyAction = (survey: any, user_id: number, surveyId: number) => async (dispatch: any) => {
     try {
         const response = await surveysApi.submitSurveyFormsApi(survey);
         const responseData = await response.json();
 
         if (response.status === 200) {
-            dispatch(surveySubmitSuccess(responseData))
+            dispatch(surveySubmitSuccess(responseData, user_id, surveyId))
         }
         else  {
             dispatch(surveySubmitFailed("Failed to submit data"))

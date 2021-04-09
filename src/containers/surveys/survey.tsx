@@ -4,6 +4,7 @@ import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import {getFormFromId} from "./_helpers/survey.helpers";
 import {loadSurveyForms, submitSurveyAction, surveyStarted} from "../../redux/actions/survey";
 import {SurveyPage} from "./_partials/survey-page";
+import {loadUserAction} from "../../redux/actions/profile";
 
 interface IStartData {
     started: boolean;
@@ -23,20 +24,27 @@ const Survey = ({match}: Props) => {
     //handle opening and closing of surveys
     const started_surveys = useSelector((state: RootStateOrAny) => state.surveys.startedSurveys);
     const current_survey_data = started_surveys.filter((survey: any) => survey.surveyId === match.params.id);
-    let startedSurvey_raw = {surveyId: match.params.id, started: false, startTime: undefined};
+    let startData = {surveyId: match.params.id, started: false, startTime: undefined};
     if (current_survey_data.length > 0){
-        startedSurvey_raw = current_survey_data[0]
+        startData = current_survey_data[0]
     }
-    const [startData, setStartData] = useState<IStartData>(startedSurvey_raw);
     //handle updating form responses
     const [formData, setFormData] = useState([] as any);
     const [formRawData, setFormRawData] = useState([] as any);
+    //Handle whether survey have been filled and submitted
+    const user = useSelector((state: RootStateOrAny) => state.profile.user);
+    const submitted_surveys = useSelector((state: RootStateOrAny) => state.surveys.startedSurveys);
+    const currentInSubmitted = submitted_surveys.filter((survey: any)=> survey.surveyId === match.params.id && survey.userId === user.id);
+    const surveyIsSubmited = currentInSubmitted.length > 0;
 
     useEffect(() => {
         if (!forms || forms.length === 0) {
             dispatch(loadSurveyForms());
         }
-    }, [dispatch, forms]);
+        if (!user || !user.id) {
+            dispatch(loadUserAction());
+        }
+    }, [dispatch, forms, user]);
 
     const handleChangePage = (count: number)=>{
         if (pages){
@@ -59,7 +67,22 @@ const Survey = ({match}: Props) => {
     };
 
     const handleSubmit = ()=>{
-        dispatch(submitSurveyAction(formData));
+        let data = [
+            {
+                ans: formData,
+                end_time: Date.now(),
+                local_id: 0,
+                location: {
+                    accuracy: 0,
+                    lat: 0,
+                    lon: 0
+                },
+                start_time: startData.startTime,
+                survey_id: match.params.id
+            }
+        ];
+
+        dispatch(submitSurveyAction(data, user.id, match.params.id));
     };
 
     return (
@@ -77,6 +100,16 @@ const Survey = ({match}: Props) => {
 
                         <div className="">
                             {
+                                surveyIsSubmited ?
+                                    <div className="bg-gray-50">
+                                        <div
+                                            className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+                                            <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                                                <span className="block">You have already been submitted!!</span>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    :
                                 startData.started ?
                                     <form>
                                         <SurveyPage

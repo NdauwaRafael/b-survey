@@ -68,13 +68,14 @@ export const surveys = (state = initialState, action: any) => {
             let submitted_survey_string = localStorage.getItem('started_surveys');
             let submitted_data: any[] = [];
             if(submitted_survey_string) {
-                survey_data = JSON.parse(submitted_survey_string);
-                survey_data = submitted_data.filter((survey: any) => survey.surveyId !== action.surveyId);
+                submitted_data = JSON.parse(submitted_survey_string);
+                submitted_data = submitted_data.filter((survey: any) => survey.surveyId !== action.surveyId);
             }
 
             let submittedSurvey = [...submitted_data, {
                 surveyId: action.surveyId,
-                date: Date.now()
+                date: Date.now(),
+                user_id: action.user_id
             }];
 
             localStorage.removeItem('submitted_surveys');
