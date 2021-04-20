@@ -3,7 +3,7 @@
 
 To start using the application, run the following commands on the command prompt / terminal.
 
-- Clone the repository containing the code. ``git clone http://repo-url``
+- Clone the repository containing the code. ``git clone https://github.com/NdauwaRafael/b-survey.git``
 - Go to the cloned repository folder on your local machine. ``cd b-survey``
 - Run ``npm install``
 - Run ``npm start``
